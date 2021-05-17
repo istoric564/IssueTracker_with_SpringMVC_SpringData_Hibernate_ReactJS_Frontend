@@ -6,6 +6,7 @@ import HeaderComponent from './HeaderComponent';
 import FooterComponent from './FooterComponent';
 import CreateIssuesComponent from './CreateIssuesComponent';
 import UpdateIssueComponent from './UpdateIssueComponent';
+import ViewIssueComponent from './ViewIssueComponent';
 
 function App() {
   return (
@@ -16,8 +17,9 @@ function App() {
                         <Switch> 
                           <Route path = "/" exact component = {ListIssueComponent}></Route>
                           <Route path = "/issues" component = {ListIssueComponent}></Route>
-                          <Route path = "/add-issues" component = {CreateIssuesComponent}></Route>
+                          <Route path = "/add-issues/:id" component = {CreateIssuesComponent}></Route>
                           <Route path = "/update-issues/:id" component = {UpdateIssueComponent}></Route>
+                          <Route path = "/view-issues/:id" component = {ViewIssueComponent}></Route>
                         </Switch>
                       </div>
                 <FooterComponent />

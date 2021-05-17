@@ -25,10 +25,21 @@ class ListIssueComponent extends Component {
         }
         this.addIssue = this.addIssue.bind(this);
         this.editIssue = this.editIssue.bind(this);
+        this.deleteIssue = this.deleteIssue.bind(this);
+    }
+
+    deleteIssue(id){
+      IssueService.deleteIssue(id).then(res =>{
+        this.setState({issues: this.state.issues.filter(issues => issues.id !== id)});
+      });
+    }
+
+    viewIssue(id){
+      this.props.history.push(`/view-issue/${id}`)
     }
     
     editIssue(id){
-      this.props.history.push(`/update-issues/${id}`)
+      this.props.history.push(`/add-issues/${id}`)
     }
 
     componentDidMount(){
@@ -38,7 +49,7 @@ class ListIssueComponent extends Component {
     }
 
     addIssue(){
-    this.props.history.push('/add-issues');
+    this.props.history.push('/add-issues/-1');
     }
 
     render() {
@@ -46,34 +57,37 @@ class ListIssueComponent extends Component {
             <div>
                 <h2 className="text-center">Issues List</h2>
                 <div className = "row">
-                <Button variant="contained" color="default" onClick={this.addIssue} className={Button} startIcon={<CloudUploadIcon />}>Create or Delete Issue </Button>
+                <Button variant="contained" color="default" onClick={this.addIssue} className={Button} startIcon={<CloudUploadIcon />}>Create Issue </Button>
                 </div>
             <TableContainer component={Paper}>
       <Table className="table" size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell align="left">Issues Id</TableCell>
-            <TableCell align="right">Created By</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Report</TableCell>
-            <TableCell align="right">Created On</TableCell>
-            <TableCell align="right">Status</TableCell>
-            <TableCell align="right">Title</TableCell>
+            <TableCell align="center">Issues Id</TableCell>
+            <TableCell align="center">Created By</TableCell>
+            <TableCell align="center">Description</TableCell>
+            <TableCell align="center">Report</TableCell>
+            <TableCell align="center">Created On</TableCell>
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center">Title</TableCell>
+            <TableCell align="left">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {this.state.issues.map(
               issue => (
             <TableRow key={issue.id}>
-              <TableCell component="th" scope="row">{issue.name} </TableCell>
-              <TableCell align="right">{issue.createdBy}</TableCell>
-              <TableCell align="right">{issue.issueDescription}</TableCell>
-              <TableCell align="right">{issue.issueSummary}</TableCell>
-              <TableCell align="right">{issue.createdOn}</TableCell>
-              <TableCell align="right">{issue.status}</TableCell>
-              <TableCell align="right">{issue.title}</TableCell>
+              <TableCell align="center">{issue.id} </TableCell>
+              <TableCell align="center">{issue.createdBy}</TableCell>
+              <TableCell align="center">{issue.issueDescription}</TableCell>
+              <TableCell align="center">{issue.issueSummary}</TableCell>
+              <TableCell align="center">{issue.createdOn}</TableCell>
+              <TableCell align="center">{issue.status}</TableCell>
+              <TableCell align="center">{issue.title}</TableCell>
               <TableCell>
-              <Button color="primary" onClick={() =>this.editIssue(issue.id)} className={Button} >Update</Button>
+              <Button color="primary" align="center" size="medium" onClick={() =>this.editIssue(issue.id)} className={Button} >           Update</Button>
+              <Button color="secondary" align="center" size="medium" onClick={() =>this.deleteIssue(issue.id)} className={Button} >        Delete</Button>
+              <Button color="secondary" align="center" size="medium" onClick={() =>this.viewIssue(issue.id)} className={Button} >        View</Button>
               </TableCell>
             </TableRow>
           ))}

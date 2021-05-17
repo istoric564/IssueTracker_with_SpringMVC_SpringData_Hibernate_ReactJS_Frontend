@@ -18,7 +18,7 @@ class CreateIssuesComponent extends Component {
         super(props);
         
         this.state = {
-            id: ' ',
+            id: this.props.match.params.id,
             createdBy: ' ',
             issueDescription: ' ',
             issueSummary: ' ',
@@ -30,20 +30,36 @@ class CreateIssuesComponent extends Component {
         
         this.changeIdHandler = this.changeIdHandler.bind(this);
         this.changeCreatedByHandler = this.changeCreatedByHandler.bind(this);
-        this.saveIssue = this.saveIssue.bind(this);
+        this.saveOrUpdateIssue = this.saveOrUpdateIssue.bind(this);
     }
     
+    componentDidMount(){
+            IssueService.getIssueById(this.state.id).then((res) =>{
+                let issue = res.data;
+                this.setState({id: issue.id,
+                createdBy: issue.createdBy,
+                issueDescription: issue.issueDescription,
+                issueSummary: issue.issueSummary,
+                createdOn: issue.createdOn,
+                status: issue.status,
+                title: issue.title
+                });
+            });
+        }
 
-    saveIssue = (I) =>{
+    saveOrUpdateIssue = (I) =>{
         I.preventDefault();
         let issue = {id: this.state.id, createdBy: this.state.createdBy, issueDescription: this.state.issueDescription, issueSummary: this.state.issueSummary,
         createdOn: this.state.createdOn, status: this.state.status, title: this.state.title};
         console.log('issue =>' + JSON.stringify(issue));
-
-        IssueService.createIssue(issue).then(res =>{
-            this.props.history.push('/issues');
-        });
-    }
+        
+            IssueService.createIssue(issue).then(res =>{
+                this.props.history.push('/issues');
+            
+            });
+        }
+    
+    
     
     changeIdHandler = (event) =>{
         this.setState({id: event.target.value});
@@ -90,6 +106,13 @@ class CreateIssuesComponent extends Component {
         return false
       }
 
+      getTitle(){
+          if(this.state.id == -1){
+              return <h3 className ="text-center">Add Issues</h3>
+          } else {
+            return <h3 className ="text-center">Update Issues</h3>
+          }
+      }
     render() {
         const {onChange, onOpenChange, disabledDate} = this
         return (
@@ -97,14 +120,12 @@ class CreateIssuesComponent extends Component {
                 <div className = "container">
                     <div className = "row">
                         <div className = "card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className ="text-center">Add Issues</h3>
+                            {
+                                this.getTitle()
+                            }
                             <div className = "card-body">
                                 <form>
-                                    <div className = "form-group">
-                                        <label> Id: </label>
-                                        <input placeholder = "id" name="id" className="form-control"
-                                        value={this.state.id} onChange={this.changeIdHandler}/>
-                                    </div>
+                                    
                                     <div className = "form-group">
                                         <label> Created By: </label>
                                         <input placeholder = "Created By" name="Number" className="form-control"
@@ -152,7 +173,7 @@ class CreateIssuesComponent extends Component {
                                         <input placeholder = "Title" name="Title" className="form-control"
                                         value={this.state.title} onChange={this.changeTitleHandler}/>
                                     </div>
-                                    <Button variant="contained" onClick={this.saveIssue} color="primary" size="large" className="button" startIcon={<SaveIcon />}> Save </Button>
+                                    <Button variant="contained" onClick={this.saveOrUpdateIssue.bind(this)} color="primary" size="large" className="button" startIcon={<SaveIcon />}> Save </Button>
                                     <Button variant="contained" onClick={this.cancel.bind(this)} color="secondary" className="button" startIcon={<DeleteIcon />}> Cancel </Button>
                                 </form>
                             </div>

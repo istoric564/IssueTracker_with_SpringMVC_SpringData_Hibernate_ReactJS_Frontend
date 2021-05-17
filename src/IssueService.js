@@ -21,6 +21,10 @@ class IssueService {
     updateIssue(issue, issueId){
         return axios.put(ISSUE_API_BASE_URL + '/' + issueId, issue);
     }
+
+    deleteIssue(issueId){
+        return axios.delete(ISSUE_API_BASE_URL + '/' + issueId);
+    }
 }
 
 export default new IssueService()

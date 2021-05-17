@@ -39,7 +39,19 @@ class UpdateIssueComponent extends Component {
         this.updateIssue = this.updateIssue.bind(this);
     }
     
-   
+    componentDidMount(){
+        IssueService.getIssueById(this.state.id).then((res) =>{
+            let issue = res.data;
+            this.setState({id: issue.id,
+            createdBy: issue.createdBy,
+            issueDescription: issue.issueDescription,
+            issueSummary: issue.issueSummary,
+            createdOn: issue.createdOn,
+            status: issue.status,
+            title: issue.title
+            });
+        });
+    }
 
     updateIssue = (I) =>{
         I.preventDefault();
