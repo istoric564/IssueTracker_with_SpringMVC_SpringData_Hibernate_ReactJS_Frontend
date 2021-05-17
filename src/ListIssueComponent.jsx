@@ -35,7 +35,7 @@ class ListIssueComponent extends Component {
     }
 
     viewIssue(id){
-      this.props.history.push(`/view-issue/${id}`)
+      this.props.history.push(`/view-issues/${id}`)
     }
     
     editIssue(id){
