@@ -30,7 +30,7 @@ class CreateIssuesComponent extends Component {
         
         this.changeIdHandler = this.changeIdHandler.bind(this);
         this.changeCreatedByHandler = this.changeCreatedByHandler.bind(this);
-        this.saveOrUpdateIssue = this.saveOrUpdateIssue.bind(this);
+        this.saveIssue = this.saveIssue.bind(this);
     }
     
     componentDidMount(){
@@ -47,7 +47,7 @@ class CreateIssuesComponent extends Component {
             });
         }
 
-    saveOrUpdateIssue = (I) =>{
+    saveIssue = (I) =>{
         I.preventDefault();
         let issue = {id: this.state.id, createdBy: this.state.createdBy, issueDescription: this.state.issueDescription, issueSummary: this.state.issueSummary,
         createdOn: this.state.createdOn, status: this.state.status, title: this.state.title};
@@ -173,7 +173,7 @@ class CreateIssuesComponent extends Component {
                                         <input placeholder = "Title" name="Title" className="form-control"
                                         value={this.state.title} onChange={this.changeTitleHandler}/>
                                     </div>
-                                    <Button variant="contained" onClick={this.saveOrUpdateIssue.bind(this)} color="primary" size="large" className="button" startIcon={<SaveIcon />}> Save </Button>
+                                    <Button variant="contained" onClick={this.saveIssue.bind(this)} color="primary" size="large" className="button" startIcon={<SaveIcon />}> Save </Button>
                                     <Button variant="contained" onClick={this.cancel.bind(this)} color="secondary" className="button" startIcon={<DeleteIcon />}> Cancel </Button>
                                 </form>
                             </div>
