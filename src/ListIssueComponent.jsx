@@ -49,8 +49,8 @@ class ListIssueComponent extends Component {
     }
 
     addIssue(){
-    this.props.history.push('/add-issues/-1');
-    }
+      this.props.history.push('/add-issues/-1');
+      }
 
     render() {
         return (
